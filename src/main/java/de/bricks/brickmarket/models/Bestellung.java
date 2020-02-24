@@ -11,5 +11,4 @@ public class Bestellung {
     private LocalDate date;
     private Kunde kunde;
     private List<BestellungsPosition> positionen;
-
 }
