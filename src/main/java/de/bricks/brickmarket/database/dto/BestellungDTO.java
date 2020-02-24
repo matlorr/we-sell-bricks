@@ -6,7 +6,7 @@ import org.springframework.data.relational.core.mapping.Table;
 
 
 import java.time.LocalDate;
-import java.util.List;
+import java.util.Set;
 
 @Table("bestellung")
 @Data
@@ -15,5 +15,5 @@ public class BestellungDTO {
     private Long bestellnr;
     private LocalDate datum;
     private Long kunde;
-    private List<PositionDTO> positionen;
+    private Set<PositionDTO> positionen;
 }
