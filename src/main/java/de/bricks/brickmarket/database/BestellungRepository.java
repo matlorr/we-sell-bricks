@@ -1,4 +1,6 @@
 package de.bricks.brickmarket.database.dto;
 
-public interface BestellungRepository {
+import org.springframework.data.repository.CrudRepository;
+
+public interface BestellungRepository extends CrudRepository<BestellungDTO,Long> {
 }

@@ -1,4 +1,7 @@
 package de.bricks.brickmarket.database;
 
-public interface KundeRepository {
+import de.bricks.brickmarket.database.dto.KundeDTO;
+import org.springframework.data.repository.CrudRepository;
+
+public interface KundeRepository extends CrudRepository<KundeDTO,Long> {
 }

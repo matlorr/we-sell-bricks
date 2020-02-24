@@ -5,6 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.relational.core.mapping.Table;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 @Table("bestellung")
@@ -12,7 +13,7 @@ import java.util.List;
 public class BestellungDTO {
     @Id
     private Long bestellnr;
-    private String datum;
-    private int kunde;
+    private LocalDate datum;
+    private Long kunde;
     private List<PositionDTO> positionen;
 }
