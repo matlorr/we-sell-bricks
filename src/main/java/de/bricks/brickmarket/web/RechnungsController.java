@@ -4,6 +4,7 @@ import de.bricks.brickmarket.ModelService;
 import de.bricks.brickmarket.models.BestellungsPosition;
 import de.bricks.brickmarket.models.BestellungsSummary;
 import de.bricks.brickmarket.models.Kunde;
+import de.bricks.brickmarket.models.Produkt;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -30,6 +31,9 @@ public class RechnungsController{
     @GetMapping("/verkauf")
     public String verkauf(Model model){
         List<Kunde> kunden = modelTranslator.alleKunden();
+        List<Produkt> produkte = modelTranslator.alleProdukte();
+        model.addAttribute("kunden", kunden);
+        model.addAttribute("produkte", produkte);
         return "verkauf";
     }
 }
