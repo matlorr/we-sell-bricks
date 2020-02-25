@@ -76,13 +76,40 @@ public class ModelService {
         return new Kunde(dto.getKundennr(),dto.getName(),dto.getPlz(),dto.getStadt(),dto.getStrasse(),dto.getLng(),dto.getLat());
     }
 
-    private Produkt load(ProduktDTO dto) {
-        double volumen = unitStringToDouble(dto.getHoehe()) * unitStringToDouble(dto.getBreite()) * unitStringToDouble(dto.getTiefe());
-        double gewicht = unitStringToDouble(dto.getGewicht());
+    /**
+     * Generates a object of class Produkt with data sourced from the database
+     * via the ProduktDTO
+     *
+     * @param dto
+     * @return "Produkt" object
+     */
+    public Produkt load(ProduktDTO dto) {
+        double volumen = unitStringToDouble(dto.getBreite())
+                * unitStringToDouble(dto.getHoehe())
+                * unitStringToDouble(dto.getTiefe());
         double preis = unitStringToDouble(dto.getPreis());
-        return new Produkt(dto.getProdukt(), dto.getBestand(), volumen, preis, gewicht);
+        double gewicht = unitStringToDouble(dto.getGewicht());
+        int bestand = dto.getBestand();
+        return new Produkt(dto.getProdukt(), bestand, volumen, preis, gewicht);
     }
 
-
+    /**
+     * Generates a "Produkt" object by finding the fitting line in the database via
+     * its name.
+     *
+     * @param name
+     * @return
+     */
+    public Produkt produkt(String name) {
+        ArrayList<Produkt> result = new ArrayList<>();
+        Iterable<ProduktDTO> alleProdukte = produkte.findAll();
+        alleProdukte.forEach(dto -> result.add(load(dto)));
+        for (Produkt produkt : result) {
+            if (produkt.getName().equals(name)) {
+                return produkt;
+            }
+        }
+        return null;
+    }
 
 }
