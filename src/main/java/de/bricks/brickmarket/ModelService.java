@@ -9,11 +9,14 @@ import de.bricks.brickmarket.models.Kunde;
 import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
+
 @Service
 public class ModelService {
+
     private final KundeRepository kunden;
     private final BestellungRepository bestellungen;
     private final ProduktRepository produkte;
+
     public ModelService(KundeRepository kunden, ProduktRepository produkte, BestellungRepository bestellungen){
         this.bestellungen = bestellungen;
         this.kunden = kunden;
