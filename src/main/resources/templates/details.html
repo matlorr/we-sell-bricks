@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Rechnung</title>
+</head>
+<body>
+<h1>Bestellung Nr. <span th:text="${bestellung.getId()}">1234</span></h1>
+
+<h2>Kunde</h2>
+<span th:text="${bestellung.getKunde().getName()}">Max Muster</span>
+<span th:text="${bestellung.getKunde().getPlz()}">12345</span>
+<span th:text="${bestellung.getKunde().getStadt()}">Musterstadt</span>
+
+<h2>Bestellung</h2>
+<table>
+    <thead>
+    <th>Produkt</th>
+    <th>Anzahl</th>
+    <th>Preis</th>
+    <th>Summe</th>
+    </thead>
+    <tbody>
+    <tr th:each="pos:${bestellung.getPositionen()}">
+        <td th:text="${pos.getProdukt().getName()}">Bier</td>
+        <td th:text="${pos.getAnzahl()}">Bier</td>
+        <td th:text="${pos.getProdukt().getPreis()}">Bier</td>
+        <td th:text="${#numbers.formatDecimal(pos.getPreis(),0,'POINT',2,'COMMA')}">Bier</td>
+    </tr>
+    </tbody>
+</table>
+
+<h3>Gesamtpreis</h3>
+<span th:text="${#numbers.formatDecimal(bestellung.getGesamtPreis(),0,'POINT',2,'COMMA')}">100</span>
+
+
+</body>
+</html>
