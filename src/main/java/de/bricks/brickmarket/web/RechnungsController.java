@@ -2,6 +2,7 @@ package de.bricks.brickmarket.web;
 
 import de.bricks.brickmarket.BestandService;
 import de.bricks.brickmarket.ModelService;
+import de.bricks.brickmarket.models.Bestellung;
 import de.bricks.brickmarket.models.BestellungsPosition;
 import de.bricks.brickmarket.models.BestellungsSummary;
 import de.bricks.brickmarket.models.Kunde;
@@ -45,6 +46,13 @@ public class RechnungsController{
         return "verkauf";
     }
 
+    @GetMapping("/details")
+    public String index(Model model, Long bestellung) {
+        Bestellung b = modelTranslator.bestellung(bestellung);
+        model.addAttribute("bestellung", b);
+        return "details";
+    }
+
     @SessionScope
     @GetMapping("/einkauf")
     //@ResponseBody
@@ -63,6 +71,7 @@ public class RechnungsController{
         int produktAnzahl = anzahl;
         bestandWriter.addBestand(addedProdukt, anzahl);
         return "redirect:/einkauf";
+
     }
 }
 
