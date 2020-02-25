@@ -11,5 +11,5 @@ public class PositionDTO {
     @Id
     private Long id;
     private int anzahl;
-    private int produkt;
+    private Long produkt;
 }

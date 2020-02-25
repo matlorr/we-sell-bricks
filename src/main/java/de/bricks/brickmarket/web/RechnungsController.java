@@ -1,6 +1,7 @@
 package de.bricks.brickmarket.web;
 
 import de.bricks.brickmarket.ModelService;
+import de.bricks.brickmarket.models.Bestellung;
 import de.bricks.brickmarket.models.BestellungsPosition;
 import de.bricks.brickmarket.models.BestellungsSummary;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,13 @@ public class RechnungsController{
         model.addAttribute("bestellungen",summaries);
         System.out.println(summaries);
         return "uebersicht";
+    }
+
+    @GetMapping("/details")
+    public String index(Model model, Long bestellung){
+        Bestellung b = modelTranslator.bestellung(bestellung);
+        model.addAttribute("bestellung",b);
+        return "details";
     }
 }
 
