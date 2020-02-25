@@ -71,4 +71,23 @@ public class ModelService {
         int bestand = dto.getBestand();
         return new Produkt(dto.getProdukt(), bestand, volumen, preis, gewicht);
     }
+
+    /**
+     * Generates a "Produkt" object by finding the fitting line in the database via
+     * its name.
+     *
+     * @param name
+     * @return
+     */
+    public Produkt produkt(String name) {
+        ArrayList<Produkt> result = new ArrayList<>();
+        Iterable<ProduktDTO> alleProdukte = produkte.findAll();
+        alleProdukte.forEach(dto -> result.add(load(dto)));
+        for (Produkt produkt : result) {
+            if (produkt.getName().equals(name)) {
+                return produkt;
+            }
+        }
+        return null;
+    }
 }
