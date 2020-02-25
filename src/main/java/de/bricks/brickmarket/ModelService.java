@@ -34,6 +34,13 @@ public class ModelService {
         return result;
     }
 
+    public List<Kunde> alleKunden() {
+        ArrayList<Kunde> result = new ArrayList<>();
+        Iterable<KundeDTO> alleKunden = kunden.findAll();
+        alleKunden.forEach(dto -> result.add(load(dto)));
+        return result;
+    }
+
     /**
      * Erzeugt ein Kundenobjekt und befüllt ein BestellungsSummaryobjekt mit diesem
      * und Daten aus dem BestellungsDTO.
@@ -53,4 +60,6 @@ public class ModelService {
     public Kunde load(KundeDTO dto){
         return new Kunde(dto.getKundennr(),dto.getName(),dto.getPlz(),dto.getStadt(),dto.getStrasse(),dto.getLng(),dto.getLat());
     }
+
+
 }

@@ -29,6 +29,7 @@ public class RechnungsController{
 
     @GetMapping("/verkauf")
     public String verkauf(Model model){
+        List<Kunde> kunden = modelTranslator.alleKunden();
         return "verkauf";
     }
 }
