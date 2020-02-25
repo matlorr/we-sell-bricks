@@ -19,9 +19,10 @@ public class ModelService {
         this.kunden = kunden;
         this.produkte = produkte;
     }
+
     /** erstellen der Liste aller Bestellungen
      * für die Übersicht, wird durch BestellungDTO's
-     * erstellt
+     * erstellt.
      */
     public List<BestellungsSummary> alleBestellungen(){
         ArrayList<BestellungsSummary> result = new ArrayList<>();
@@ -29,10 +30,23 @@ public class ModelService {
         alleBestellungen.forEach(dto -> result.add(loadSummary(dto)));
         return result;
     }
+
+    /**
+     * Erzeugt ein Kundenobjekt und befüllt ein BestellungsSummaryobjekt mit diesem
+     * und Daten aus dem BestellungsDTO.
+     * @param dto
+     * @return
+     */
     public BestellungsSummary loadSummary(BestellungDTO dto){
         Kunde kunde = load(kunden.findById(dto.getKunde()).get());
         return new BestellungsSummary(dto.getBestellnr(),dto.getDatum(),kunde.getName());
     }
+
+    /**
+     * Erzeugt ein Kundenobjekt aus den transferierten Daten eines KundenDTOs.
+     * @param dto
+     * @return
+     */
     public Kunde load(KundeDTO dto){
         return new Kunde(dto.getKundennr(),dto.getName(),dto.getPlz(),dto.getStadt(),dto.getStrasse(),dto.getLng(),dto.getLat());
     }
