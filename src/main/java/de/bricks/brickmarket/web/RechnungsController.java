@@ -1,5 +1,4 @@
 package de.bricks.brickmarket.web;
-
 import de.bricks.brickmarket.BestandService;
 import de.bricks.brickmarket.ModelService;
 import de.bricks.brickmarket.models.Bestellung;
@@ -14,12 +13,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.context.annotation.SessionScope;
-
 import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 public class RechnungsController{
+
     ArrayList<BestellungsPosition> positionen = new ArrayList<BestellungsPosition>();
 
     @Autowired
@@ -37,13 +36,33 @@ public class RechnungsController{
         return "uebersicht";
     }
 
+    @SessionScope
     @GetMapping("/verkauf")
     public String verkauf(Model model) {
         List<Kunde> kunden = modelTranslator.alleKunden();
         List<Produkt> produkte = modelTranslator.alleProdukte();
         model.addAttribute("kunden", kunden);
+        model.addAttribute("einkaufsliste", positionen);
         model.addAttribute("produkte", produkte);
         return "verkauf";
+    }
+
+    @SessionScope
+    @PostMapping(value = "/verkauf", params = "add")
+    public String positionHinzufügen(String produkt, int anzahl){
+        BestellungsPosition bestellungsPosition = new BestellungsPosition(0, anzahl, modelTranslator.produkt(produkt));
+        positionen.add(bestellungsPosition);
+        return "redirect:/verkauf";
+    }
+
+    @SessionScope
+    @PostMapping(value = "/verkauf", params = "submit")
+    public String verkaufen(){
+        if(bestandWriter.checkBestand(positionen)){
+            bestandWriter.decreaseBestand(positionen);
+            return  "verkaufs_abschluss";
+        }
+        return "redirect:/verkauf";
     }
 
     @GetMapping("/details")
@@ -71,7 +90,6 @@ public class RechnungsController{
         int produktAnzahl = anzahl;
         bestandWriter.addBestand(addedProdukt, anzahl);
         return "redirect:/einkauf";
-
     }
 }
 

@@ -35,7 +35,6 @@ public class ModelService {
         return result;
     }
 
-
     public List<Kunde> alleKunden() {
         ArrayList<Kunde> result = new ArrayList<>();
         Iterable<KundeDTO> alleKunden = kunden.findAll();
@@ -46,7 +45,6 @@ public class ModelService {
     /**
      * Generates a object of class Produkt with data sourced from the database
      * via the ProduktDTO
-=======
     /** Returns a list of all "Produkte", which are generated from ProdukteDTO.
      *
      * @return
@@ -60,7 +58,6 @@ public class ModelService {
 
     /**
      * Generates an "Bestellung" object from database with the id given by the parameter.
->>>>>>> faa0613aa551f2a6c87de2e8c0fa0eb40a3f3cb3
      *
      * @param id
      * @return
@@ -126,7 +123,6 @@ public class ModelService {
         return new Bestellung(dto.getBestellnr(),dto.getDatum(), kunde, positionen);
     }
 
-
     /**
      * Generates "BestellPosition" object with data sourced from database via the PositionDTO.
      * Data needed for the instance of "Produkt" in class "BestellPosition" is loaded through
@@ -151,6 +147,7 @@ public class ModelService {
     public Kunde load(KundeDTO dto) {
         return new Kunde(dto.getKundennr(),dto.getName(),dto.getPlz(),dto.getStadt(),dto.getStrasse(),dto.getLng(),dto.getLat());
     }
+
     /**
      * Generates a object of class Produkt with data sourced from the database
      * via the ProduktDTO
@@ -167,6 +164,5 @@ public class ModelService {
         int bestand =dto.getBestand();
         return new Produkt(dto.getProdukt(), bestand, volumen, preis, gewicht);
     }
-
 
 }

@@ -4,10 +4,12 @@ import de.bricks.brickmarket.database.KundeRepository;
 import de.bricks.brickmarket.database.dto.BestellungRepository;
 import de.bricks.brickmarket.database.dto.ProduktDTO;
 import de.bricks.brickmarket.database.dto.ProduktRepository;
+import de.bricks.brickmarket.models.BestellungsPosition;
 import de.bricks.brickmarket.models.Produkt;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 @Service
 public class BestandService {
@@ -25,7 +27,16 @@ public class BestandService {
         ProduktDTO produktDTO = produktDTO(produkt);
         produktDTO.setBestand(produktDTO.getBestand() + anzahl);
         produkte.save(produktDTO);
+    }
 
+    public void decreaseBestand(List<BestellungsPosition> positionen){
+        for (BestellungsPosition position: positionen) {
+            if(position.getAnzahl() <= produktDTO(position.getProdukt()).getBestand()){
+                ProduktDTO produktDTO = produktDTO(position.getProdukt());
+                produktDTO.setBestand(produktDTO.getBestand() - position.getAnzahl());
+                produkte.save(produktDTO);
+            }
+        }
     }
 
     /**
@@ -43,4 +54,14 @@ public class BestandService {
         }
         return null;
     }
+
+    public boolean checkBestand(List<BestellungsPosition> positionen) {
+        for (BestellungsPosition position: positionen) {
+            if(position.getAnzahl() > produktDTO(position.getProdukt()).getBestand()){
+                return false;
+            }
+        }
+        return true;
+    }
+
 }
