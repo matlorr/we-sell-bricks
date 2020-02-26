@@ -16,6 +16,7 @@ import org.springframework.web.context.annotation.SessionScope;
 import java.util.ArrayList;
 import java.util.List;
 
+@SessionScope
 @Controller
 public class RechnungsController{
 
