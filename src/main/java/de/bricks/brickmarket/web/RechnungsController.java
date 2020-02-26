@@ -57,6 +57,7 @@ public class RechnungsController{
 
     @SessionScope
     @PostMapping(value = "/verkauf", params = "submit")
+    @Transactional
     public String verkaufen(){
         if(bestandWriter.checkBestand(positionen)){
             bestandWriter.decreaseBestand(positionen);
