@@ -1,53 +1,53 @@
 
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <title>Verkauf</title>
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Verkauf</title>
+    </head>
+    <div style="text-align: center;">
+        <body>
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="SelectCustomer">Kundenauswahl</label>
+                        <select class="form-control" id="SelectCustomer" name="kundenName">
+                            <ul th:each="kunde : ${kunden}" th:remove="all-but-first">
+                                <option> <span th:text="${kunde.getName()}"> </span> </option>
+                            </ul>
+                    </select>
+                </div>
 
-<form action="" method="post">
-    <div class="form-group">
-        <label for="SelectCustomer">Kundenauswahl</label>
-        <select class="form-control" id="SelectCustomer" name="kundenName">
-            <ul th:each="kunde : ${kunden}" th:remove="all-but-first">
-                <option> <span th:text="${kunde.getName()}"> </span> </option>
-            </ul>
-        </select>
+                <ul class="list-group"  th:each="bestellposition : ${einkaufsliste}" th:remove="all-but-first">
+                    <li>
+                        <span> Produkt:  </span>
+                        <span th:text="${bestellposition.getProdukt().getName()}"> </span>
+                        <span> Anzahl:  </span>
+                        <span th:text="${bestellposition.getAnzahl()}">  </span>
+                        <div class="list-group">
+                            <a th:if="${bestellposition.getAnzahl()} > ${bestellposition.getProdukt().getBestand()}" class="list-group-item list-group-item-action list-group-item-danger"> BESTAND REICHT NICHT AUS </a>
+                        </div>
+                    </li>
+                </ul>
+                <div><input class="btn btn-primary" type="submit" name="submit" value="Bestellung aufgeben"></div>
+            </form>
+
+            <br>
+                <hr class="style1">
+            <br>
+
+            <form action="" method="post">
+                <div class="form-group">
+                    <label for="SelectProduct">Produktauswahl</label>
+                        <select class="form-control" id="SelectProduct" name="produkt">
+                            <ul th:each="produkt : ${produkte}" th:remove="all-but-first">
+                                <option> <span th:text="${produkt.getName()}"> </span>  </option>
+                            </ul>
+                        </select>
+                </div>
+                <div><input name="anzahl" placeholder="Anzahl" type="number"></div>
+                <div><input class="btn btn-primary" type="submit" name="add" value="Zur Position hinzufügen"></div>
+            </form>
+        </body>
     </div>
-
-    <ul class="list-group"  th:each="bestellposition : ${einkaufsliste}" th:remove="all-but-first">
-        <li>
-            <span> Produkt:  </span>
-            <span th:text="${bestellposition.getProdukt().getName()}"> </span>
-            <span> Anzahl:  </span>
-            <span th:text="${bestellposition.getAnzahl()}">  </span>
-            <div class="list-group">
-                <a th:if="${bestellposition.getAnzahl()} > ${bestellposition.getProdukt().getBestand()}" class="list-group-item list-group-item-action list-group-item-danger"> BESTAND REICHT NICHT AUS </a>
-            </div>
-        </li>
-    </ul>
-    <div><input class="btn btn-primary" type="submit" name="submit" value="Bestellung aufgeben"></div>
-</form>
-
-<br>
-<hr class="style1">
-<br>
-
-<form action="" method="post">
-    <div class="form-group">
-        <label for="SelectProduct">Produktauswahl</label>
-        <select class="form-control" id="SelectProduct" name="produkt">
-            <ul th:each="produkt : ${produkte}" th:remove="all-but-first">
-                <option> <span th:text="${produkt.getName()}"> </span>  </option>
-            </ul>
-        </select>
-    </div>
-    <div><input name="anzahl" placeholder="Anzahl" type="number"></div>
-    <div><input class="btn btn-primary" type="submit" name="add" value="Zur Position hinzufügen"></div>
-</form>
-
-</body>
 </html>
 

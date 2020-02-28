@@ -33,7 +33,6 @@ public class RechnungsController{
     public String index(Model model){
         List<BestellungsSummary> summaries = modelTranslator.alleBestellungen();
         model.addAttribute("bestellungen",summaries);
-        System.out.println(summaries);
         return "uebersicht";
     }
 
@@ -51,8 +50,7 @@ public class RechnungsController{
     @SessionScope
     @PostMapping(value = "/verkauf", params = "add")
     public String positionHinzufügen(String produkt, int anzahl){
-        BestellungsPosition bestellungsPosition = new BestellungsPosition(0, anzahl, modelTranslator.produkt(produkt));
-        positionen.add(bestellungsPosition);
+        positionen.add(new BestellungsPosition(0, anzahl, modelTranslator.produkt(produkt)));
         return "redirect:/verkauf";
     }
 
@@ -62,6 +60,7 @@ public class RechnungsController{
     public String verkaufen(){
         if(bestandWriter.checkBestand(positionen)){
             bestandWriter.decreaseBestand(positionen);
+            positionen = new ArrayList<>();
             return  "verkaufs_abschluss";
         }
         return "redirect:/verkauf";
@@ -69,8 +68,8 @@ public class RechnungsController{
 
     @GetMapping("/details")
     public String index(Model model, Long bestellung) {
-        Bestellung b = modelTranslator.bestellung(bestellung);
-        model.addAttribute("bestellung", b);
+        Bestellung zuBestellen = modelTranslator.bestellung(bestellung);
+        model.addAttribute("bestellung", zuBestellen);
         return "details";
     }
 
@@ -80,7 +79,7 @@ public class RechnungsController{
     public String trig(Model model) {
         List<Produkt> produkte = modelTranslator.alleProdukte();
         model.addAttribute("produkte", produkte);
-        return "einkaeufer_maske";
+        return "einkauf";
     }
 
     @PostMapping(value = "/einkauf", params = "add")
@@ -89,7 +88,6 @@ public class RechnungsController{
     //@ResponseBody
     public String name(String produkt, int anzahl) {
         Produkt addedProdukt = modelTranslator.produkt(produkt);
-        int produktAnzahl = anzahl;
         bestandWriter.addBestand(addedProdukt, anzahl);
         return "redirect:/einkauf";
     }

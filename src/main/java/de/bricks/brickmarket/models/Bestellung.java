@@ -15,7 +15,7 @@ public class Bestellung {
 
     public double getProduktKosten(){
         double preis = 0;
-        for(BestellungsPosition pos:positionen){
+        for(BestellungsPosition pos : positionen){
             preis += pos.getPreis();
         }
         return preis;

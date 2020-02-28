@@ -4,14 +4,13 @@
     <meta charset="UTF-8">
     <title>Rechnungen</title>
 </head>
-<body>
-<ul th:each="bestellung : ${bestellungen}" th:remove="all-but-first">
-    <li><a th:href="@{/details(bestellung=${bestellung.getNr()})}" href="#">
-        <span th:text="${bestellung.getNr()}">1234</span>
-        <span th:text="${bestellung.getKunde()}">Max Muster GmbH</span>
-        <span th:text="${bestellung.getDatum().toString()}">01.01.2000</span>
-    </a>
-    </li>
-</ul>
-</body>
+    <body>
+        <ul th:each="bestellung : ${bestellungen}" th:remove="all-but-first">
+            <li><a th:href="@{/details(bestellung=${bestellung.getNr()})}" href="#">
+                <span th:text="${bestellung.getNr()}">1234</span>
+                <span th:text="${bestellung.getKunde()}">Max Muster GmbH</span>
+                <span th:text="${bestellung.getDatum().toString()}">01.01.2000</span>
+            </a></li>
+        </ul>
+    </body>
 </html>

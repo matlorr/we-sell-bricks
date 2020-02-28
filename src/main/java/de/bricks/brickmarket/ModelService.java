@@ -78,11 +78,16 @@ public class ModelService {
         Iterable<ProduktDTO> alleProdukte = produkte.findAll();
         alleProdukte.forEach(dto -> result.add(load(dto)));
         for (Produkt produkt: result) {
-            if(produkt.getName().equals(name)){
-                return produkt;
-            }
+            if (sameName(name, produkt.getName())) return produkt;
         }
         return null;
+    }
+
+    private boolean sameName(String name, String toCheck ) {
+        if (toCheck.equals(name)) {
+            return true;
+        }
+        return false;
     }
 
     public Kunde kunde(String name){
@@ -90,9 +95,7 @@ public class ModelService {
         Iterable<KundeDTO> alleKunden = kunden.findAll();
         alleKunden.forEach(dto -> result.add(load(dto)));
         for (Kunde kunde: result) {
-            if(kunde.getName().equals(name)){
-                return kunde;
-            }
+            if (sameName(name,  kunde.getName())) return kunde;
         }
         return null;
     }

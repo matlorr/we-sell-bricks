@@ -8,7 +8,6 @@ import de.bricks.brickmarket.models.BestellungsPosition;
 import de.bricks.brickmarket.models.Produkt;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -31,11 +30,15 @@ public class BestandService {
 
     public void decreaseBestand(List<BestellungsPosition> positionen){
         for (BestellungsPosition position: positionen) {
-            if(position.getAnzahl() <= produktDTO(position.getProdukt()).getBestand()){
-                ProduktDTO produktDTO = produktDTO(position.getProdukt());
-                produktDTO.setBestand(produktDTO.getBestand() - position.getAnzahl());
-                produkte.save(produktDTO);
-            }
+            decreaseAnzahl(position);
+        }
+    }
+
+    private void decreaseAnzahl(BestellungsPosition position) {
+        if(position.getAnzahl() <= produktDTO(position.getProdukt()).getBestand()){
+            ProduktDTO produktDTO = produktDTO(position.getProdukt());
+            produktDTO.setBestand(produktDTO.getBestand() - position.getAnzahl());
+            produkte.save(produktDTO);
         }
     }
 
@@ -48,20 +51,30 @@ public class BestandService {
     public ProduktDTO produktDTO(Produkt produkt) {
         Iterable<ProduktDTO> alleProdukte = produkte.findAll();
         for (ProduktDTO produktDTO : alleProdukte) {
-            if (produktDTO.getProdukt().equals(produkt.getName())) {
-                return produktDTO;
-            }
+            if (same(produkt, produktDTO)) return produktDTO;
         }
         return null;
     }
 
+    private boolean same(Produkt produkt, ProduktDTO produktDTO) {
+        if (produktDTO.getProdukt().equals(produkt.getName())) {
+            return true;
+        }
+        return false;
+    }
+
     public boolean checkBestand(List<BestellungsPosition> positionen) {
         for (BestellungsPosition position: positionen) {
-            if(position.getAnzahl() > produktDTO(position.getProdukt()).getBestand()){
-                return false;
-            }
+            if (BestandToSmall(position)) return false;
         }
         return true;
+    }
+
+    private boolean BestandToSmall(BestellungsPosition position) {
+        if(position.getAnzahl() > produktDTO(position.getProdukt()).getBestand()){
+            return true;
+        }
+        return false;
     }
 
 }
